@@ -1,9 +1,8 @@
-# Путь к вложению (отчету)
-attachment_path = 'daily_report.txt'       # Имя файла для ежедневного отчета
+import os
+import time
 
-# Функция для создания ежедневного отчета
-def generate_daily_report():
+def generate_daily_report(file_path):
     today = time.strftime("%Y-%m-%d")
     report_content = f"Ежедневный отчет за {today}"
-    with open(attachment_path, 'w', encoding='utf-8') as file:
+    with open(file_path, 'w', encoding='utf-8') as file:
         file.write(report_content)
