@@ -1,6 +1,7 @@
 import os
 import time
 
+
 def generate_daily_report(file_path):
     today = time.strftime("%Y-%m-%d")
     report_content = f"Ежедневный отчет за {today}"
