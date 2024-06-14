@@ -4,11 +4,12 @@ import imaplib
 import smtplib
 import logging
 from email.mime.text import MIMEText
-from email.header import Header
 from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email import encoders
 from email.utils import formatdate
+
+import body
 
 import config
 
@@ -22,10 +23,10 @@ logging.basicConfig(
 
 from_mail = config.mail                    # Адрес отправителя
 from_passwd = config.passwd                # Пароль от почты отправителя
-smtp_server = "smtp.yandex.ru"             # Адрес SMTP сервера
-smtp_port = 587                            # Порт SMTP сервера для TLS
-imap_server = "imap.yandex.ru"             # Адрес IMAP сервера
-imap_port = 993                            # Порт IMAP сервера для SSL
+smtp_server = config.smtp_server           # Адрес SMTP сервера
+smtp_port = config.smtp_port                         # Порт SMTP сервера для TLS
+imap_server = config.imap_server            # Адрес IMAP сервера
+imap_port = config.imap_port                            # Порт IMAP сервера для SSL
 to_mails = config.to_mails                 # Список адресов получателей
 
 # Путь к вложению
@@ -36,9 +37,9 @@ def send_email(to_mail):
     msg = MIMEMultipart()
     msg["From"] = from_mail
     msg["To"] = to_mail
-    msg["Subject"] = Header('Тема письма', 'utf-8')
+    msg["Subject"] = config.Header
     msg["Date"] = formatdate(localtime=True)
-    msg.attach(MIMEText("Текст сообщения", 'html', 'utf-8'))
+    msg.attach = body
 
     # Логируем создание сообщения
     logging.info('Создано сообщение с темой: %s для %s', msg["Subject"], to_mail)
@@ -51,7 +52,7 @@ def send_email(to_mail):
                 part.set_payload(file.read())
             encoders.encode_base64(part)
             part.add_header('Content-Disposition', f'attachment; filename="{os.path.basename(attachment_path)}"')
-            msg.attach(part)
+            msg.attach(part) == body
             logging.info('Файл %s успешно прикреплен к сообщению для %s', attachment_path, to_mail)
         except Exception as e:
             logging.error('Ошибка при прикреплении файла к сообщению для %s: %s', to_mail, str(e))
